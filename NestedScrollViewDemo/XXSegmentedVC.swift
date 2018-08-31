@@ -112,10 +112,10 @@ public class XXSegmentedVC: UIViewController {
             
             if globalScroll {
                 cacheOffsetY[oldValue] = scrollView.contentOffset.y
-                var offsetY = cacheOffsetY[selectIndex]
                 let top = scrollView.scrollIndicatorInsets.top - segmentedHeight
                 // 偏移大于顶部固定条时 还原偏移位置
                 if scrollView.contentOffset.y > top {
+                    var offsetY = cacheOffsetY[selectIndex]
                     if offsetY < top {
                         offsetY = top
                     }
