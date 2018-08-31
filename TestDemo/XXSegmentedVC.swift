@@ -90,8 +90,10 @@ public class XXSegmentedVC: UIViewController {
     
     private lazy var contentView = UIView()
     
+    public var didSelect: ((Int) -> Void)?
     public var selectIndex: Int = 0 {
         didSet {
+            didSelect?(selectIndex)
             segmentedBtns[oldValue].isSelected = false
             segmentedBtns[selectIndex].isSelected = true
             segmentedUnderView.snp.remakeConstraints { (make) in
