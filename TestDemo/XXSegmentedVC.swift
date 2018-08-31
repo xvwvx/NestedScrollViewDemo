@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import MJRefresh
 
 public struct XXSegmentedItem {
     let title: String
@@ -122,10 +123,27 @@ public class XXSegmentedVC: UIViewController {
         
         scrollView.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
-//            make.top.greaterThanOrEqualTo(self.view.snp.top)
-            make.top.left.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.greaterThanOrEqualTo(0)
-            make.width.equalTo(self.view.snp.width)
+            make.width.equalTo(self.view)
+//            let topConstraint0 = make.top.equalTo(self.view).constraint
+            let topConstraint1 = make.top.equalToSuperview().constraint
+            
+//            _ = self.scrollView.rx.contentOffset
+//                .map({ (contentOffset) -> Bool in
+//                    return contentOffset.y > 0
+//                })
+//                .distinctUntilChanged()
+//                .subscribe(onNext: { (isOnTop) in
+//                    debugPrint(isOnTop)
+//                    if isOnTop {
+//                        topConstraint0.deactivate()
+//                        topConstraint1.activate()
+//                    }else {
+//                        topConstraint1.deactivate()
+//                        topConstraint0.activate()
+//                    }
+//                })
         }
         
         segmentedView.backgroundColor = .white
@@ -198,14 +216,28 @@ public class XXSegmentedVC: UIViewController {
 }
 
 extension XXSegmentedVC: UIScrollViewDelegate {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard let delegate = selectController! as? XXSegmentedDelegate else {
+            return
+        }
+        let otherScrollView = delegate.segmentedScrollView
+        if scrollView.contentOffset.y < -65 {
+            otherScrollView.mj_header.beginRefreshing()
+        }
+    }
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let delegate = selectController! as? XXSegmentedDelegate else {
             return
         }
         let otherScrollView = delegate.segmentedScrollView
         
-        if scrollView.contentOffset.y < 0 {
-            otherScrollView.contentOffset = CGPoint(x: otherScrollView.contentOffset.x, y: scrollView.contentOffset.y)
+        let offsetY = scrollView.contentOffset.y
+        if offsetY <= 0 {
+//            debugPrint(offsetY)
+            if !otherScrollView.mj_header.isRefreshing {
+                otherScrollView.contentOffset = CGPoint(x: otherScrollView.contentOffset.x, y: offsetY)
+            }
         }
     }
 }
