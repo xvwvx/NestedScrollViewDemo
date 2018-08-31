@@ -33,6 +33,7 @@ public class XXSegmentedVC: UIViewController {
             let vc = $0.vc
             if autoHeight, let delegate = vc as? XXSegmentedDelegate {
                 let scrollView = delegate.segmentedScrollView
+                scrollView.clipsToBounds = false
                 scrollView.isScrollEnabled = false
                 _ = scrollView.rx.observe(CGSize.self, "contentSize")
                     .startWith(CGSize.zero)
@@ -136,6 +137,7 @@ public class XXSegmentedVC: UIViewController {
         }
     }
     
+    var topConstraint: NSLayoutConstraint?
     override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -144,43 +146,38 @@ public class XXSegmentedVC: UIViewController {
             make.edges.width.height.equalToSuperview()
         }
         
-        scrollView.addSubview(headerView)
-        headerView.snp.makeConstraints { (make) in
+        let topView = UIView()
+        scrollView.addSubview(topView)
+        topView.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             make.height.greaterThanOrEqualTo(0)
+        }
+        topConstraint = NSLayoutConstraint(item: topView,
+                                           attribute: .top,
+                                           relatedBy: .equal,
+                                           toItem: topView.superview,
+                                           attribute: .top,
+                                           multiplier: 1,
+                                           constant: 0)
+        scrollView.addConstraint(topConstraint!)
+        
+        topView.addSubview(headerView)
+        headerView.snp.makeConstraints { (make) in
+            make.top.left.right.equalToSuperview()
+            make.height.greaterThanOrEqualTo(0)
             make.width.equalTo(self.view)
-//            let topConstraint0 = make.top.equalTo(self.view).constraint
-            let topConstraint1 = make.top.equalToSuperview().constraint
-            
-            if !self.autoHeight {
-                return
-            }
-//            _ = self.scrollView.rx.contentOffset
-//                .map({ (contentOffset) -> Bool in
-//                    return contentOffset.y < 0
-//                })
-//                .distinctUntilChanged()
-//                .subscribe(onNext: { (isOnTop) in
-//                    debugPrint(isOnTop)
-//                    if isOnTop {
-//                        topConstraint0.deactivate()
-//                        topConstraint1.activate()
-//                    }else {
-//                        topConstraint1.deactivate()
-//                        topConstraint0.activate()
-//                    }
-//                })
         }
         
         segmentedView.backgroundColor = .white
-        scrollView.addSubview(segmentedView)
+        topView.addSubview(segmentedView)
         segmentedView.snp.makeConstraints { (make) in
             make.top.greaterThanOrEqualTo(headerView.snp.bottom)
             if self.isSegmentedOnTop {
                 // 将 segmentedView 固定在顶部的约束
                 make.top.greaterThanOrEqualTo(self.view.snp.top)
             }
-            make.left.right.equalToSuperview()
+            make.left.right.bottom.equalToSuperview()
             make.height.equalTo(segmentedHeight)
             make.width.equalTo(self.view.snp.width)
         }
@@ -212,10 +209,18 @@ public class XXSegmentedVC: UIViewController {
         lastView?.snp.makeConstraints({ (make) in
             make.right.equalToSuperview()
         })
+        
+        let equalHeaderView = UIView()
+        equalHeaderView.isHidden = true
+        scrollView.addSubview(equalHeaderView)
+        equalHeaderView.snp.makeConstraints { (make) in
+            make.height.equalTo(headerView)
+            make.top.left.right.equalToSuperview()
+        }
 
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { (make) in
-            make.top.equalTo(headerView.snp.bottom).offset(segmentedHeight)
+            make.top.equalTo(equalHeaderView.snp.bottom).offset(segmentedHeight)
             make.left.right.width.equalToSuperview()
             if self.autoHeight {
                 make.bottom.equalToSuperview()
@@ -224,7 +229,7 @@ public class XXSegmentedVC: UIViewController {
             }
         }
         
-        scrollView.bringSubview(toFront: segmentedView)
+        scrollView.bringSubview(toFront: topView)
         
         if self.selectController == nil {
             self.selectIndex = 0
@@ -244,16 +249,17 @@ public class XXSegmentedVC: UIViewController {
 extension XXSegmentedVC: UIScrollViewDelegate {
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let otherScrollView = delegate!.segmentedScrollView
-        if scrollView.contentOffset.y < -65 {
+        if scrollView.contentOffset.y < -54 {
             otherScrollView.mj_header.beginRefreshing()
         }
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let otherScrollView = delegate!.segmentedScrollView
-        
+
         let offsetY = scrollView.contentOffset.y
         if offsetY <= 0 {
+            topConstraint?.constant = offsetY
             if !otherScrollView.mj_header.isRefreshing {
                 otherScrollView.contentOffset = CGPoint(x: 0, y: offsetY)
             }
