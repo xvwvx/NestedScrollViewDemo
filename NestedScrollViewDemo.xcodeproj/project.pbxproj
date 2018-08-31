@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8056CC0121378982006D26C9 /* TestDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8056CC0121378982006D26C9 /* NestedScrollViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NestedScrollViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8056CC0421378982006D26C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8056CC0621378982006D26C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8056CC0921378982006D26C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		8056CBF821378982006D26C9 = {
 			isa = PBXGroup;
 			children = (
-				8056CC0321378982006D26C9 /* TestDemo */,
+				8056CC0321378982006D26C9 /* NestedScrollViewDemo */,
 				8056CC0221378982006D26C9 /* Products */,
 				8056CC192137928F006D26C9 /* Frameworks */,
 			);
@@ -63,12 +63,12 @@
 		8056CC0221378982006D26C9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8056CC0121378982006D26C9 /* TestDemo.app */,
+				8056CC0121378982006D26C9 /* NestedScrollViewDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8056CC0321378982006D26C9 /* TestDemo */ = {
+		8056CC0321378982006D26C9 /* NestedScrollViewDemo */ = {
 			isa = PBXGroup;
 			children = (
 				8056CC0421378982006D26C9 /* AppDelegate.swift */,
@@ -80,7 +80,7 @@
 				8056CC0D21378984006D26C9 /* LaunchScreen.storyboard */,
 				8056CC1021378984006D26C9 /* Info.plist */,
 			);
-			path = TestDemo;
+			path = NestedScrollViewDemo;
 			sourceTree = "<group>";
 		};
 		8056CC192137928F006D26C9 /* Frameworks */ = {
@@ -97,9 +97,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8056CC0021378982006D26C9 /* TestDemo */ = {
+		8056CC0021378982006D26C9 /* NestedScrollViewDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8056CC1321378984006D26C9 /* Build configuration list for PBXNativeTarget "TestDemo" */;
+			buildConfigurationList = 8056CC1321378984006D26C9 /* Build configuration list for PBXNativeTarget "NestedScrollViewDemo" */;
 			buildPhases = (
 				8056CBFD21378982006D26C9 /* Sources */,
 				8056CC182137926B006D26C9 /* ShellScript */,
@@ -110,9 +110,9 @@
 			);
 			dependencies = (
 			);
-			name = TestDemo;
+			name = NestedScrollViewDemo;
 			productName = TestDemo;
-			productReference = 8056CC0121378982006D26C9 /* TestDemo.app */;
+			productReference = 8056CC0121378982006D26C9 /* NestedScrollViewDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -130,7 +130,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8056CBFC21378982006D26C9 /* Build configuration list for PBXProject "TestDemo" */;
+			buildConfigurationList = 8056CBFC21378982006D26C9 /* Build configuration list for PBXProject "NestedScrollViewDemo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -143,7 +143,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8056CC0021378982006D26C9 /* TestDemo */,
+				8056CC0021378982006D26C9 /* NestedScrollViewDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -339,7 +339,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/TestDemo",
 				);
-				INFOPLIST_FILE = TestDemo/Info.plist;
+				INFOPLIST_FILE = NestedScrollViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -361,7 +361,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/TestDemo",
 				);
-				INFOPLIST_FILE = TestDemo/Info.plist;
+				INFOPLIST_FILE = NestedScrollViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -376,7 +376,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8056CBFC21378982006D26C9 /* Build configuration list for PBXProject "TestDemo" */ = {
+		8056CBFC21378982006D26C9 /* Build configuration list for PBXProject "NestedScrollViewDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8056CC1121378984006D26C9 /* Debug */,
@@ -385,7 +385,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8056CC1321378984006D26C9 /* Build configuration list for PBXNativeTarget "TestDemo" */ = {
+		8056CC1321378984006D26C9 /* Build configuration list for PBXNativeTarget "NestedScrollViewDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8056CC1421378984006D26C9 /* Debug */,
