@@ -129,7 +129,11 @@ public class XXSegmentedVC: UIViewController {
             
             if self.globalScroll {
                 delegate = selectController as? XXSegmentedDelegate
-                scrollView.delegate = delegate != nil ? self : nil
+                if delegate != nil, delegate!.segmentedScrollView.mj_header != nil {
+                    scrollView.delegate = self
+                }else {
+                    scrollView.delegate = nil
+                }
             }
         }
     }
