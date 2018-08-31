@@ -25,13 +25,13 @@ public protocol XXSegmentedDelegate: class {
 
 public class XXSegmentedVC: UIViewController {
     
-    public init(items: [XXSegmentedItem], autoHeight: Bool = true, segmentedHeight:Int = 50) {
+    public init(items: [XXSegmentedItem], globalScroll: Bool = true, segmentedHeight:Int = 50) {
         super.init(nibName: nil, bundle: nil)
-        self.autoHeight = autoHeight
+        self.globalScroll = globalScroll
         self.segmentedHeight = segmentedHeight
         segmentedViewControllers = items.map {
             let vc = $0.vc
-            if autoHeight, let delegate = vc as? XXSegmentedDelegate {
+            if globalScroll, let delegate = vc as? XXSegmentedDelegate {
                 let scrollView = delegate.segmentedScrollView
                 scrollView.clipsToBounds = false
                 scrollView.isScrollEnabled = false
@@ -77,7 +77,7 @@ public class XXSegmentedVC: UIViewController {
     }
     
     
-    private(set) var autoHeight = true
+    private(set) var globalScroll = true
     private(set) var isSegmentedOnTop = true
     private(set) var segmentedHeight = 50
     
@@ -127,7 +127,7 @@ public class XXSegmentedVC: UIViewController {
                 make.edges.equalToSuperview()
             }
             
-            if self.autoHeight {
+            if self.globalScroll {
                 delegate = selectController as? XXSegmentedDelegate
                 scrollView.delegate = delegate != nil ? self : nil
             }
@@ -150,7 +150,7 @@ public class XXSegmentedVC: UIViewController {
         
         scrollView.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
-            if self.autoHeight {
+            if self.globalScroll {
                 self.topConstraint = NSLayoutConstraint(item: headerView,
                                                    attribute: .top,
                                                    relatedBy: .equal,
@@ -220,7 +220,7 @@ public class XXSegmentedVC: UIViewController {
         contentView.snp.makeConstraints { (make) in
             make.top.equalTo(equalHeaderView.snp.bottom).offset(segmentedHeight)
             make.left.right.width.equalToSuperview()
-            if self.autoHeight {
+            if self.globalScroll {
                 make.bottom.equalToSuperview()
             } else {
                 make.bottom.greaterThanOrEqualTo(self.view.snp.bottom)

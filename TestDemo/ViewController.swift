@@ -17,7 +17,7 @@ class ViewController: UIViewController {
                                                 XXSegmentedItem(title: "test1", vc: TableVeiwVC(count: 10)),
                                                 XXSegmentedItem(title: "test2", vc: TableVeiwVC(count: 20)),
                                                 XXSegmentedItem(title: "test3", vc: TableVeiwVC(count: 30))],
-                                        autoHeight: true)
+                                        globalScroll: true)
         
         segmentedVC.view.backgroundColor = .red
         self.addChildViewController(segmentedVC)
