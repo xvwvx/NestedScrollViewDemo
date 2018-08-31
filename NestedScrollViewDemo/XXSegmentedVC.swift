@@ -36,7 +36,6 @@ public class XXSegmentedVC: UIViewController {
                 scrollView.clipsToBounds = false
                 scrollView.isScrollEnabled = false
                 _ = scrollView.rx.observe(CGSize.self, "contentSize")
-                    .startWith(CGSize.zero)
                     .distinctUntilChanged()
                     .subscribe(onNext: { [unowned scrollView] (size) in
                         scrollView.snp.updateConstraints { (make) in
