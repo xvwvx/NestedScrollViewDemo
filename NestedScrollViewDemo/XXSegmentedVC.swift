@@ -25,7 +25,7 @@ public protocol XXSegmentedDelegate: class {
 
 public class XXSegmentedVC: UIViewController {
     
-    public init(items: [XXSegmentedItem], globalScroll: Bool = true, segmentedHeight:Int = 50) {
+    public init(items: [XXSegmentedItem], globalScroll: Bool = true, segmentedHeight:CGFloat = 50) {
         super.init(nibName: nil, bundle: nil)
         self.globalScroll = globalScroll
         self.segmentedHeight = segmentedHeight
@@ -79,7 +79,7 @@ public class XXSegmentedVC: UIViewController {
     
     private(set) var globalScroll = true
     private(set) var isSegmentedOnTop = true
-    private(set) var segmentedHeight = 50
+    private(set) var segmentedHeight:CGFloat = 50
     
     private lazy var scrollView = UIScrollView()
     public lazy var headerView = UIView()
@@ -108,15 +108,31 @@ public class XXSegmentedVC: UIViewController {
                     self.segmentedView.layoutIfNeeded()
                 }
             }
+            
             selectController = segmentedViewControllers[selectIndex]
+            
+            if globalScroll {
+                cacheOffsetY[oldValue] = scrollView.contentOffset.y
+                var offsetY = cacheOffsetY[selectIndex]
+                let top = scrollView.scrollIndicatorInsets.top - segmentedHeight
+                // 偏移大于顶部固定条时 还原偏移位置
+                if scrollView.contentOffset.y > top {
+                    if offsetY < top {
+                        offsetY = top
+                    }
+                    scrollView.contentOffset = CGPoint(x: 0, y: offsetY)
+                }
+            }
         }
     }
     
     weak private var delegate: XXSegmentedDelegate?
     private var selectController: UIViewController? {
         didSet {
-            oldValue?.removeFromParentViewController()
-            oldValue?.view.removeFromSuperview()
+            if let oldValue = oldValue {
+                oldValue.removeFromParentViewController()
+                oldValue.view.removeFromSuperview()
+            }
             guard let selectController = selectController else {
                 return
             }
@@ -127,7 +143,7 @@ public class XXSegmentedVC: UIViewController {
                 make.edges.equalToSuperview()
             }
             
-            if self.globalScroll {
+            if globalScroll {
                 delegate = selectController as? XXSegmentedDelegate
                 if delegate != nil, delegate!.segmentedScrollView.mj_header != nil {
                     scrollView.delegate = self
@@ -137,6 +153,8 @@ public class XXSegmentedVC: UIViewController {
             }
         }
     }
+    
+    private lazy var cacheOffsetY = [CGFloat](repeating: 0, count: segmentedViewControllers.count)
     public private(set) var segmentedViewControllers: [UIViewController] = [] {
         didSet {
             selectController = segmentedViewControllers[selectIndex]
@@ -169,6 +187,14 @@ public class XXSegmentedVC: UIViewController {
             make.left.right.equalToSuperview()
             make.height.greaterThanOrEqualTo(0)
             make.width.equalTo(self.view)
+        }
+        
+        if globalScroll {
+            _ = headerView.rx.observe(CGRect.self, "bounds")
+                .subscribe(onNext: { [unowned self] (frame) in
+                    let top = frame!.size.height + CGFloat(self.segmentedHeight)
+                    self.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
+                })
         }
         
         segmentedView.backgroundColor = .white
