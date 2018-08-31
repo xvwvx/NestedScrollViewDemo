@@ -146,40 +146,36 @@ public class XXSegmentedVC: UIViewController {
             make.edges.width.height.equalToSuperview()
         }
         
-        let topView = UIView()
-        scrollView.addSubview(topView)
-        topView.snp.makeConstraints { (make) in
-//            make.top.equalToSuperview()
-            make.left.right.equalToSuperview()
-            make.height.greaterThanOrEqualTo(0)
-        }
-        topConstraint = NSLayoutConstraint(item: topView,
-                                           attribute: .top,
-                                           relatedBy: .equal,
-                                           toItem: topView.superview,
-                                           attribute: .top,
-                                           multiplier: 1,
-                                           constant: 0)
-        scrollView.addConstraint(topConstraint!)
-        
-        topView.addSubview(headerView)
+        scrollView.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview()
+            if self.autoHeight {
+                self.topConstraint = NSLayoutConstraint(item: headerView,
+                                                   attribute: .top,
+                                                   relatedBy: .equal,
+                                                   toItem: headerView.superview,
+                                                   attribute: .top,
+                                                   multiplier: 1,
+                                                   constant: 0)
+                scrollView.addConstraint(topConstraint!)
+            }else {
+                make.top.equalToSuperview()
+            }
+            make.left.right.equalToSuperview()
             make.height.greaterThanOrEqualTo(0)
             make.width.equalTo(self.view)
         }
         
         segmentedView.backgroundColor = .white
-        topView.addSubview(segmentedView)
+        scrollView.addSubview(segmentedView)
         segmentedView.snp.makeConstraints { (make) in
             make.top.greaterThanOrEqualTo(headerView.snp.bottom)
             if self.isSegmentedOnTop {
                 // 将 segmentedView 固定在顶部的约束
-                make.top.greaterThanOrEqualTo(self.view.snp.top)
+                make.top.greaterThanOrEqualTo(self.view)
             }
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(segmentedHeight)
-            make.width.equalTo(self.view.snp.width)
+            make.width.equalTo(self.view)
         }
         let lineView = UIView()
         lineView.backgroundColor = UIColor(red: CGFloat(0xE8) / 255, green: CGFloat(0xE8) / 255, blue: CGFloat(0xE8) / 255, alpha: 1)
@@ -229,7 +225,7 @@ public class XXSegmentedVC: UIViewController {
             }
         }
         
-        scrollView.bringSubview(toFront: topView)
+        scrollView.sendSubview(toBack: contentView)
         
         if self.selectController == nil {
             self.selectIndex = 0
@@ -248,20 +244,21 @@ public class XXSegmentedVC: UIViewController {
 
 extension XXSegmentedVC: UIScrollViewDelegate {
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let otherScrollView = delegate!.segmentedScrollView
-        if scrollView.contentOffset.y < -54 {
-            otherScrollView.mj_header.beginRefreshing()
+        let subScrollView = delegate!.segmentedScrollView
+        if scrollView.contentOffset.y < -54 && !subScrollView.mj_header.isRefreshing {
+            subScrollView.mj_header.beginRefreshing()
         }
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let otherScrollView = delegate!.segmentedScrollView
 
         let offsetY = scrollView.contentOffset.y
         if offsetY <= 0 {
             topConstraint?.constant = offsetY
-            if !otherScrollView.mj_header.isRefreshing {
-                otherScrollView.contentOffset = CGPoint(x: 0, y: offsetY)
+            
+            let subScrollView = delegate!.segmentedScrollView
+            if !subScrollView.mj_header.isRefreshing {
+                subScrollView.contentOffset = CGPoint(x: 0, y: offsetY)
             }
         }
     }

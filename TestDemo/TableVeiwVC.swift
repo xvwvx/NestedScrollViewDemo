@@ -45,10 +45,6 @@ class TableVeiwVC: UIViewController {
             make.edges.equalToSuperview()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
-            debugPrint(self.tableView.contentSize)
-        }
-        
     }
     
     
