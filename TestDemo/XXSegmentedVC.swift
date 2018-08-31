@@ -29,7 +29,22 @@ public class XXSegmentedVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.autoHeight = autoHeight
         self.segmentedHeight = segmentedHeight
-        segmentedViewControllers = items.map{ $0.vc }
+        segmentedViewControllers = items.map {
+            let vc = $0.vc
+            if autoHeight, let delegate = vc as? XXSegmentedDelegate {
+                let scrollView = delegate.segmentedScrollView
+                scrollView.isScrollEnabled = false
+                _ = scrollView.rx.observe(CGSize.self, "contentSize")
+                    .startWith(CGSize.zero)
+                    .distinctUntilChanged()
+                    .subscribe(onNext: { [unowned scrollView] (size) in
+                        scrollView.snp.updateConstraints { (make) in
+                            make.height.greaterThanOrEqualTo(size!.height).priority(.required)
+                        }
+                    })
+            }
+            return vc
+        }
         segmentedBtns = items.map({ (item) -> UIButton in
             let button = UIButton(type: .custom)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -137,9 +152,12 @@ public class XXSegmentedVC: UIViewController {
 //            let topConstraint0 = make.top.equalTo(self.view).constraint
             let topConstraint1 = make.top.equalToSuperview().constraint
             
+            if !self.autoHeight {
+                return
+            }
 //            _ = self.scrollView.rx.contentOffset
 //                .map({ (contentOffset) -> Bool in
-//                    return contentOffset.y > 0
+//                    return contentOffset.y < 0
 //                })
 //                .distinctUntilChanged()
 //                .subscribe(onNext: { (isOnTop) in
@@ -237,7 +255,7 @@ extension XXSegmentedVC: UIScrollViewDelegate {
         let offsetY = scrollView.contentOffset.y
         if offsetY <= 0 {
             if !otherScrollView.mj_header.isRefreshing {
-                otherScrollView.contentOffset = CGPoint(x: otherScrollView.contentOffset.x, y: offsetY)
+                otherScrollView.contentOffset = CGPoint(x: 0, y: offsetY)
             }
         }
     }

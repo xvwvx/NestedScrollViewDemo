@@ -8,6 +8,7 @@
 
 import UIKit
 import RxCocoa
+import MJRefresh
 
 class TableVeiwVC: UIViewController {
 
@@ -17,6 +18,11 @@ class TableVeiwVC: UIViewController {
         tableView.dataSource = self
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "headerView")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3), execute: {
+                tableView.mj_header.endRefreshing()
+            })
+        })
         return tableView
     }()
     
@@ -43,17 +49,6 @@ class TableVeiwVC: UIViewController {
             debugPrint(self.tableView.contentSize)
         }
         
-        tableView.isScrollEnabled = false
-        tableView.snp.makeConstraints { (make) in
-            make.height.equalTo(0).priority(.high)
-        }
-        tableView.rx.observe(CGSize.self, "contentSize")
-            .distinctUntilChanged()
-            .subscribe(onNext: { (size) in
-                self.tableView.snp.updateConstraints { (make) in
-                    make.height.equalTo(size!.height).priority(.high)
-                }
-            })
     }
     
     

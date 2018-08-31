@@ -17,6 +17,7 @@
 		8056CC1F2137CCB3006D26C9 /* TableVeiwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8056CC1E2137CCB3006D26C9 /* TableVeiwVC.swift */; };
 		8056CC222137D261006D26C9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8056CC202137D261006D26C9 /* RxSwift.framework */; };
 		8056CC232137D261006D26C9 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8056CC212137D261006D26C9 /* RxCocoa.framework */; };
+		80C2916E2138E145009A7A1F /* MJRefresh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C2916D2138E145009A7A1F /* MJRefresh.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8056CC1E2137CCB3006D26C9 /* TableVeiwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVeiwVC.swift; sourceTree = "<group>"; };
 		8056CC202137D261006D26C9 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		8056CC212137D261006D26C9 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		80C2916D2138E145009A7A1F /* MJRefresh.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MJRefresh.framework; path = Carthage/Build/iOS/MJRefresh.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80C2916E2138E145009A7A1F /* MJRefresh.framework in Frameworks */,
 				8056CC222137D261006D26C9 /* RxSwift.framework in Frameworks */,
 				8056CC232137D261006D26C9 /* RxCocoa.framework in Frameworks */,
 				8056CC1B21379290006D26C9 /* SnapKit.framework in Frameworks */,
@@ -83,6 +86,7 @@
 		8056CC192137928F006D26C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80C2916D2138E145009A7A1F /* MJRefresh.framework */,
 				8056CC212137D261006D26C9 /* RxCocoa.framework */,
 				8056CC202137D261006D26C9 /* RxSwift.framework */,
 				8056CC1A21379290006D26C9 /* SnapKit.framework */,
@@ -167,6 +171,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MJRefresh.framework",
 			);
 			outputPaths = (
 			);
@@ -332,6 +337,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/TestDemo",
 				);
 				INFOPLIST_FILE = TestDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -353,6 +359,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/TestDemo",
 				);
 				INFOPLIST_FILE = TestDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

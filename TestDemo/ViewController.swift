@@ -13,8 +13,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vc = TableVeiwVC(count: 5)
-        
         let segmentedVC = XXSegmentedVC(items: [XXSegmentedItem(title: "test0", vc: TableVeiwVC(count: 5)),
                                                 XXSegmentedItem(title: "test1", vc: TableVeiwVC(count: 10)),
                                                 XXSegmentedItem(title: "test2", vc: TableVeiwVC(count: 20)),
