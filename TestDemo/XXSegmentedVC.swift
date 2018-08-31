@@ -40,7 +40,7 @@ public class XXSegmentedVC: UIViewController {
                     .distinctUntilChanged()
                     .subscribe(onNext: { [unowned scrollView] (size) in
                         scrollView.snp.updateConstraints { (make) in
-                            make.height.greaterThanOrEqualTo(size!.height).priority(.required)
+                            make.height.greaterThanOrEqualTo(size!.height)
                         }
                     })
             }
@@ -92,8 +92,6 @@ public class XXSegmentedVC: UIViewController {
     
     public var selectIndex: Int = 0 {
         didSet {
-            let animate = selectController != nil
-            selectController = segmentedViewControllers[selectIndex]
             segmentedBtns[oldValue].isSelected = false
             segmentedBtns[selectIndex].isSelected = true
             segmentedUnderView.snp.remakeConstraints { (make) in
@@ -102,11 +100,13 @@ public class XXSegmentedVC: UIViewController {
                 make.height.equalTo(1)
                 make.centerX.equalTo(segmentedBtns[selectIndex].snp.centerX)
             }
-            if animate {
+            
+            if selectController != nil {
                 UIView.animate(withDuration: 0.3) {
                     self.segmentedView.layoutIfNeeded()
                 }
             }
+            selectController = segmentedViewControllers[selectIndex]
         }
     }
     

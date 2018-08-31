@@ -19,8 +19,14 @@ class TableVeiwVC: UIViewController {
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "headerView")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3), execute: {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1), execute: {
                 tableView.mj_header.endRefreshing()
+                if self.count > 5 {
+                    self.count = self.count - 5
+                }else {
+                    self.count = 10
+                }
+                tableView.reloadData()
             })
         })
         return tableView
