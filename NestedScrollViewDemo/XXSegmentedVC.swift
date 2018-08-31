@@ -80,7 +80,7 @@ public class XXSegmentedVC: UIViewController {
     private(set) var isSegmentedOnTop = true
     private(set) var segmentedHeight:CGFloat = 50
     
-    private lazy var scrollView = UIScrollView()
+    public private(set) lazy var scrollView = UIScrollView()
     public lazy var headerView = UIView()
     
     private lazy var segmentedBtns: [UIButton] = []
