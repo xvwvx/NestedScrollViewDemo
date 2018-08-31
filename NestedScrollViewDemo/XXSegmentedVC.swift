@@ -154,11 +154,7 @@ public class XXSegmentedVC: UIViewController {
     }
     
     private lazy var cacheOffsetY = [CGFloat](repeating: 0, count: segmentedViewControllers.count)
-    public private(set) var segmentedViewControllers: [UIViewController] = [] {
-        didSet {
-            selectController = segmentedViewControllers[selectIndex]
-        }
-    }
+    public private(set) var segmentedViewControllers: [UIViewController] = []
     
     var topConstraint: NSLayoutConstraint?
     override public func viewDidLoad() {
