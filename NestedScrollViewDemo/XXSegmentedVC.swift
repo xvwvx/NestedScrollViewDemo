@@ -190,8 +190,8 @@ public class XXSegmentedVC: UIViewController {
         
         if globalScroll {
             _ = headerView.rx.observe(CGRect.self, "bounds")
-                .subscribe(onNext: { [unowned self] (frame) in
-                    let top = frame!.size.height + CGFloat(self.segmentedHeight)
+                .subscribe(onNext: { [unowned self] (bounds) in
+                    let top = bounds!.size.height + CGFloat(self.segmentedHeight)
                     self.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
                 })
         }
