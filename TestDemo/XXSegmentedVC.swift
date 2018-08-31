@@ -131,7 +131,7 @@ public class XXSegmentedVC: UIViewController {
             }
         }
     }
-    private var segmentedViewControllers: [UIViewController] = [] {
+    public private(set) var segmentedViewControllers: [UIViewController] = [] {
         didSet {
             selectController = segmentedViewControllers[selectIndex]
         }
