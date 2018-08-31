@@ -19,7 +19,7 @@ public struct XXSegmentedItem {
     }
 }
 
-public protocol XXSegmentedDelegate {
+public protocol XXSegmentedDelegate: class {
     var segmentedScrollView: UIScrollView { get }
 }
 
@@ -112,7 +112,7 @@ public class XXSegmentedVC: UIViewController {
         }
     }
     
-    private var delegate: XXSegmentedDelegate?
+    weak private var delegate: XXSegmentedDelegate?
     private var selectController: UIViewController? {
         didSet {
             oldValue?.removeFromParentViewController()
