@@ -89,6 +89,7 @@ public class XXSegmentedVC: UIViewController {
     
     private lazy var contentView = UIView()
     
+    public var shouldSelect: ((Int) -> Bool)?
     public var didSelect: ((Int) -> Void)?
     public var selectIndex: Int = 0 {
         didSet {
@@ -262,6 +263,9 @@ public class XXSegmentedVC: UIViewController {
     @objc private func segmentedAction(button: UIButton) {
         let index = segmentedBtns.index(of: button)!
         if selectIndex == index {
+            return
+        }
+        if !(shouldSelect?(index) ?? true) {
             return
         }
         selectIndex = index
